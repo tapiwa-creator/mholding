@@ -82,8 +82,7 @@ const Contact = () => {
               Contact Information
             </h2>
             <p className="text-gray-600 mb-6 md:mb-8 text-sm md:text-base">
-              Reach out to our team for inquiries about investment opportunities,
-              partnerships, or general information.
+             Feel free to reach out to us via the contact form or directly through email or phone. We're here to assist you with any inquiries or project discussions.
             </p>
 
             {/* Contact Details */}
@@ -99,8 +98,8 @@ const Contact = () => {
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-xs md:text-sm text-gray-600 mb-1">Email</p>
-                  <a href="mailto:info@MKholdings.com" className="text-gray-900 font-medium hover:text-cyan-500 transition-colors text-sm md:text-base truncate block">
-                    info@mkholdings.com
+                  <a href="mailto:informkholding@gmail.com" className="text-gray-900 font-medium hover:text-cyan-500 transition-colors text-sm md:text-base truncate block">
+                    informkholding@gmail.com
                   </a>
                 </div>
               </div>
@@ -157,7 +156,7 @@ const Contact = () => {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    placeholder="John"
+                    placeholder="first"
                     className="w-full px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base border border-gray-200 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all"
                     required
                   />
@@ -172,7 +171,7 @@ const Contact = () => {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    placeholder="Doe"
+                    placeholder="last"
                     className="w-full px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base border border-gray-200 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all"
                     required
                   />
@@ -190,7 +189,7 @@ const Contact = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="john@example.com"
+                  placeholder="email@example.com"
                   className="w-full px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base border border-gray-200 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all"
                   required
                 />

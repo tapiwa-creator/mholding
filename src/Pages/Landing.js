@@ -143,7 +143,7 @@ const Landing = () => {
 
               {/* Description */}
               <p className="text-base md:text-lg text-gray-600 leading-relaxed">
-               MK Holdings delivers innovative technology and engineering solutions across diverse sectors, creating lasting value and sustainable outcomes for clients.
+               MK Holdings delivers innovative technology and home designs & renovations solutions across diverse sectors, creating lasting value and sustainable outcomes for clients.
               </p>
 
               {/* Buttons */}
@@ -210,10 +210,10 @@ const Landing = () => {
                 <div className="bg-white px-6 py-6">
                   <div className="mt-2">
                     <p className="text-gray-700 leading-relaxed mb-4">
-                      Founded in 2025 by a group of innovative young professionals, the company was established with a bold vision to deliver modern, practical solutions across IT, engineering, and architecture. Built on creativity, technical skill, and a forward-thinking mindset, the company brings fresh perspectives to solving today's complex challenges.
+                      Founded in 2025 by a group of innovative young professionals, the company was established with a bold vision to deliver modern, practical solutions across IT, home designs & renovations, and architecture. Built on creativity, technical skill, and a forward-thinking mindset, the company brings fresh perspectives to solving today's complex challenges.
                     </p>
                     <p className="text-gray-700 leading-relaxed">
-                      Currently, its core focus lies in information technology, engineering services, and architectural design, where it provides reliable, efficient, and well-structured solutions tailored to client needs. By combining digital innovation with sound engineering and thoughtful design, the company delivers work that is both functional and sustainable.
+                      Currently, its core focus lies in information technology, home designs & renovations services and architectural design, where it provides reliable, efficient, and well-structured solutions tailored to client needs. By combining digital innovation with sound home designs & renovations and thoughtful design, the company delivers work that is both functional and sustainable.
                     </p>
                   </div>
                 </div>
@@ -320,7 +320,7 @@ const Landing = () => {
                 Our Team
               </h2>
               <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto px-4">
-                Meet our dedicated team of investment professionals and industry experts.
+                Meet our dedicated team of professionals and industry experts.
               </p>
             </div>
 
@@ -343,7 +343,7 @@ const Landing = () => {
                   Co-Founder
                 </p>
                 <p className="text-gray-600 leading-relaxed text-center text-sm md:text-base">
-                  Driven by vision and innovation, turning ambitious ideas into impactful solutions across IT, architecture and more.
+                  Driven by vision and innovation, turning ambitious ideas into impactful solutions across multiple sectors.
                 </p>
               </div>
 
