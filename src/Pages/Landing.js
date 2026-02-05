@@ -20,14 +20,14 @@ const StatsCounter = () => {
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
+      observer.disconnect();
     };
   }, []);
 
   const Counter = ({ target, suffix = '', label, delay = 0 }) => {
     const [count, setCount] = useState(0);
+    const intervalRef = useRef(null);
+    const timeoutRef = useRef(null);
 
     useEffect(() => {
       if (!isVisible) return;
@@ -38,24 +38,25 @@ const StatsCounter = () => {
       let current = 0;
       let frame = 0;
 
-      const timer = setTimeout(() => {
-        const counter = setInterval(() => {
+      timeoutRef.current = setTimeout(() => {
+        intervalRef.current = setInterval(() => {
           frame++;
           current += increment;
 
           if (frame >= steps) {
             setCount(target);
-            clearInterval(counter);
+            clearInterval(intervalRef.current);
           } else {
             setCount(Math.floor(current));
           }
         }, duration / steps);
-
-        return () => clearInterval(counter);
       }, delay);
 
-      return () => clearTimeout(timer);
-    }, [isVisible, target, delay]);
+      return () => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        if (intervalRef.current) clearInterval(intervalRef.current);
+      };
+    }, [isVisible, target, delay, suffix]);
 
     return (
       <div className="text-center opacity-0 animate-fade-in-up" style={{ animationDelay: `${delay}ms` }}>
@@ -100,6 +101,20 @@ const Landing = () => {
     setIsModalOpen(false);
   };
 
+  // Handle Escape key to close modal
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape' && isModalOpen) {
+        closeModal();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isModalOpen]);
+
   return (
     <div className="min-h-screen">
       {/* Hero Section - Full white background */}
@@ -114,36 +129,56 @@ const Landing = () => {
                 {/* Animated border container */}
                 <div className="absolute -inset-[3px] rounded-full overflow-hidden">
                   {/* Top border segment */}
-                  <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#1a202c] animate-[border-move-top_6s_linear_infinite]" 
-                       style={{ animationDelay: '0s' }}></div>
+                  <div 
+                    className="absolute top-0 left-0 right-0 h-[3px] bg-[#1a202c]"
+                    style={{ 
+                      animation: 'border-move-top 6s linear infinite',
+                      animationDelay: '0s'
+                    }}
+                  ></div>
                   {/* Right border segment */}
-                  <div className="absolute top-0 right-0 bottom-0 w-[3px] bg-[#1a202c] animate-[border-move-right_6s_linear_infinite]" 
-                       style={{ animationDelay: '1.5s' }}></div>
+                  <div 
+                    className="absolute top-0 right-0 bottom-0 w-[3px] bg-[#1a202c]"
+                    style={{ 
+                      animation: 'border-move-right 6s linear infinite',
+                      animationDelay: '1.5s'
+                    }}
+                  ></div>
                   {/* Bottom border segment */}
-                  <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#1a202c] animate-[border-move-bottom_6s_linear_infinite]" 
-                       style={{ animationDelay: '3s' }}></div>
+                  <div 
+                    className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#1a202c]"
+                    style={{ 
+                      animation: 'border-move-bottom 6s linear infinite',
+                      animationDelay: '3s'
+                    }}
+                  ></div>
                   {/* Left border segment */}
-                  <div className="absolute top-0 left-0 bottom-0 w-[3px] bg-[#1a202c] animate-[border-move-left_6s_linear_infinite]" 
-                       style={{ animationDelay: '4.5s' }}></div>
+                  <div 
+                    className="absolute top-0 left-0 bottom-0 w-[3px] bg-[#1a202c]"
+                    style={{ 
+                      animation: 'border-move-left 6s linear infinite',
+                      animationDelay: '4.5s'
+                    }}
+                  ></div>
                 </div>
                 
                 {/* Badge content */}
                 <div className="relative bg-white rounded-full px-4 py-2 shadow-sm z-10">
                   <div className="w-2 h-2 bg-[#1a202c] rounded-full animate-pulse inline-block mr-2"></div>
                   <span className="text-[#1a202c] text-sm font-medium">
-                    Reliable Strategic Ally
+                    Designing Homes and Softwares
                   </span>
                 </div>
               </div>
 
               {/* Heading - Responsive font sizes */}
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                Innovative Approaches for Sustainable Development
+                Delivering smart solutions for software development, architecture and home designs.
               </h1>
 
               {/* Description */}
               <p className="text-base md:text-lg text-gray-600 leading-relaxed">
-               MK Holdings delivers innovative technology and home designs & renovations solutions across diverse sectors, creating lasting value and sustainable outcomes for clients.
+                MK Holdings delivers innovative technology and home designs & renovations solutions across diverse sectors, creating lasting value and sustainable outcomes for clients.
               </p>
 
               {/* Buttons */}
@@ -159,11 +194,11 @@ const Landing = () => {
 
             {/* Right Content - Landing Image - UPDATED: Removed container, made image bigger */}
             <div className="flex justify-center lg:justify-end items-center h-full order-2 lg:order-2 w-full">
-              {/* UPDATED: Removed max-w-lg container and shadow, made image larger and full-width */}
+              {/* UPDATED: Made image responsive with max-width to prevent overflow */}
               <img 
                 src="/landing.jpg" 
-                alt="MK Holdings Professional" 
-                className="w-full h-auto lg:w-[120%] lg:max-w-none lg:ml-auto object-contain"
+                alt="MK Holdings Professional Services" 
+                className="w-full h-auto lg:max-w-[110%] xl:max-w-[100%] object-contain"
               />
             </div>
           </div>
@@ -182,21 +217,28 @@ const Landing = () => {
             <div 
               className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
               onClick={closeModal}
+              aria-hidden="true"
             ></div>
 
             {/* Modal Container */}
             <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-              <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+              <div 
+                className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="modal-headline"
+              >
                 {/* Modal Header */}
                 <div className="bg-[#1a202c] px-6 py-4">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold leading-6 text-white">
+                    <h3 className="text-lg font-semibold leading-6 text-white" id="modal-headline">
                       MK Holdings
                     </h3>
                     <button
                       type="button"
                       className="rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                       onClick={closeModal}
+                      aria-label="Close modal"
                     >
                       <span className="sr-only">Close</span>
                       <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
@@ -242,7 +284,7 @@ const Landing = () => {
                 Our Vision
               </h2>
               <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto px-4">
-               To deliver innovative technology and architectural solutions, solving problems with client satisfaction front and centre
+                To deliver innovative technology and architectural solutions, solving problems with client satisfaction front and centre
               </p>
             </div>
 
@@ -271,10 +313,10 @@ const Landing = () => {
                   </svg>
                 </div>
                 <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3 md:mb-4">
-                 Digital Empowerment
+                  Digital Empowerment
                 </h3>
                 <p className="text-gray-600 leading-relaxed text-sm md:text-base">
-                 Drive technology innovation that empowers people, streamlining processes through digitalisation.
+                  Drive technology innovation that empowers people, streamlining processes through digitalisation.
                 </p>
               </div>
 
@@ -286,7 +328,7 @@ const Landing = () => {
                   </svg>
                 </div>
                 <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3 md:mb-4">
-                 Visionary Spaces
+                  Visionary Spaces
                 </h3>
                 <p className="text-gray-600 leading-relaxed text-sm md:text-base">
                   Design innovative, sustainable environment that uplift communities and bring people together.
@@ -332,7 +374,7 @@ const Landing = () => {
                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-full mx-auto mb-4 md:mb-6 overflow-hidden">
                   <img 
                     src="/2.jpg" 
-                    alt="Team Member 1" 
+                    alt="Comfort T Mkunyadze - Co-Founder of MK Holdings" 
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -353,9 +395,8 @@ const Landing = () => {
                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-full mx-auto mb-4 md:mb-6 overflow-hidden">
                   <img 
                     src="/1.jpg" 
-                    alt="Team Member 2" 
+                    alt="Leenox B Chapata - Operations Manager at MK Holdings" 
                     className="w-full h-full object-cover object-center"
-                    style={{ objectPosition: 'center' }}
                   />
                 </div>
                 <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 text-center">
@@ -365,7 +406,7 @@ const Landing = () => {
                   Operations Manager
                 </p>
                 <p className="text-gray-600 leading-relaxed text-center text-sm md:text-base">
-                 A detail driven leader with deep expertise in architecture. Blending on-site know-how, design insight and team coordination to turn blueprints into real buildings.
+                  A detail driven leader with deep expertise in architecture. Blending on-site know-how, design insight and team coordination to turn blueprints into real buildings.
                 </p>
               </div>
 
@@ -375,7 +416,7 @@ const Landing = () => {
                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-full mx-auto mb-4 md:mb-6 overflow-hidden">
                   <img 
                     src="/3.jpg" 
-                    alt="Team Member 3" 
+                    alt="Takudzwa Phuwaphuwa - Sustainability Leader at MK Holdings" 
                     className="w-full h-full object-cover"
                   />
                 </div>
