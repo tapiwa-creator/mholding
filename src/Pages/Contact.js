@@ -24,15 +24,13 @@ const Contact = () => {
     setSubmitStatus({ type: '', message: '' });
 
     try {
-      // EmailJS configuration
-      const serviceID = 'YOUR_SERVICE_ID'; // Replace with your EmailJS service ID
-      const templateID = 'YOUR_TEMPLATE_ID'; // Replace with your EmailJS template ID
-      const publicKey = 'YOUR_PUBLIC_KEY'; // Replace with your EmailJS public key
+      const serviceID = 'service_9niih68';
+      const templateID = 'template_zwqjv3s';
+      const publicKey = 'yqPfm9JxIn9K06f1f';
 
       const templateParams = {
         from_name: `${formData.firstName} ${formData.lastName}`,
         from_email: formData.email,
-        to_email: 'tapiwacomfort086@gmail.com',
         message: formData.message,
       };
 
@@ -43,7 +41,6 @@ const Contact = () => {
         message: 'Message sent successfully! We will get back to you soon.'
       });
 
-      // Reset form
       setFormData({
         firstName: '',
         lastName: '',
@@ -51,10 +48,10 @@ const Contact = () => {
         message: ''
       });
     } catch (error) {
-      console.error('Error sending email:', error);
+      console.error('EmailJS error:', error);
       setSubmitStatus({
         type: 'error',
-        message: 'Failed to send message. Please try again or email us directly.'
+        message: 'Failed to send message. Please try again.'
       });
     } finally {
       setIsSubmitting(false);
@@ -82,10 +79,9 @@ const Contact = () => {
               Contact Information
             </h2>
             <p className="text-gray-600 mb-6 md:mb-8 text-sm md:text-base">
-             Feel free to reach out to us via the contact form or directly through email or phone. We're here to assist you with any inquiries or project discussions.
+             Feel free to reach out to us via the contact form or directly through email or phone.
             </p>
 
-            {/* Contact Details */}
             <div className="space-y-4 md:space-y-6">
               {/* Email */}
               <div className="flex items-start space-x-3 md:space-x-4">
@@ -144,7 +140,6 @@ const Contact = () => {
           {/* Right Side - Contact Form */}
           <div className="bg-white rounded-xl md:rounded-2xl p-6 md:p-8 shadow-lg border border-gray-100">
             <form onSubmit={handleSubmit}>
-              {/* First Name and Last Name */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-6">
                 <div>
                   <label htmlFor="firstName" className="block text-sm font-medium text-gray-900 mb-1 md:mb-2">
@@ -178,7 +173,6 @@ const Contact = () => {
                 </div>
               </div>
 
-              {/* Email */}
               <div className="mb-4 md:mb-6">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-900 mb-1 md:mb-2">
                   Email
@@ -195,7 +189,6 @@ const Contact = () => {
                 />
               </div>
 
-              {/* Message */}
               <div className="mb-4 md:mb-6">
                 <label htmlFor="message" className="block text-sm font-medium text-gray-900 mb-1 md:mb-2">
                   Message
@@ -212,7 +205,6 @@ const Contact = () => {
                 ></textarea>
               </div>
 
-              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -221,7 +213,6 @@ const Contact = () => {
                 {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
 
-              {/* Status Messages */}
               {submitStatus.message && (
                 <div className={`mt-3 md:mt-4 p-3 md:p-4 rounded-lg text-sm md:text-base ${
                   submitStatus.type === 'success' 
@@ -234,7 +225,7 @@ const Contact = () => {
             </form>
           </div>
         </div>
-      </div>
+      </div> . 
     </div>
   );
 };
